@@ -2,7 +2,7 @@ import os
 import requests
 
 API_TOKEN = os.environ["API_TOKEN"] #Set a API_TOKEN environment variable before running
-API_URL = "" #Add a URL for a model of your choosing
+API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta" #Add a URL for a model of your choosing
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
 
 def query(prompt):

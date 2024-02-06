@@ -1,8 +1,12 @@
 import os
 import requests
 
-#API_TOKEN = os.environ["API_TOKEN"] #Set a API_TOKEN environment variable before running
-API_TOKEN = "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"
+from dotenv import load_dotenv
+load_dotenv()
+
+API_TOKEN = os.environ["API_TOKEN"] #Set a API_TOKEN environment variable before running
+print("API_TOKEN", API_TOKEN)
+#API_TOKEN = "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"
 #API_URL = "https://api-inference.huggingface.co/models/llm-agents/tora-13b-v1.0" #Add a URL for a model of your choosing
 API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta"
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
@@ -19,10 +23,17 @@ def query(payload):
         }
     }
 	response = requests.post(API_URL, headers=headers, json=payload)
-	return response.json()
+	return response.json()[0]['generated_text']
 	
-output = query("Can you please let us know more details about your")
+question = "What is the population of Jacksonville, Florida?"
+context = "As of the most current census, Jacksonville, Florida has a population of 1 million."
+prompt = f"""Use the following context to answer the question at the end.
 
+{context}
+
+Question: {question}
+"""
+output=query(prompt)
 print(output)
 
 
